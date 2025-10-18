@@ -14,6 +14,7 @@ CREATE TABLE surveys (
     hotel_id BIGINT NOT NULL,
     guest_id BIGINT NOT NULL,
     score DOUBLE NOT NULL,
+    weight DOUBLE NOT NULL DEFAULT 1,
     submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_survey_hotel FOREIGN KEY (hotel_id) REFERENCES hotels(id),
     CONSTRAINT fk_survey_guest FOREIGN KEY (guest_id) REFERENCES guests(id)

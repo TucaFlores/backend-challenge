@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "survey")
+@Table(name = "surveys")
 public class SurveyResponse {
 
     @Id

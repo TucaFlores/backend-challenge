@@ -38,13 +38,6 @@ public class EmailSenderService {
         return new MessageResult(from,subject,to,body);
     }
 
-
-    public String buildMailMessage(EmailTemplateDataProjection templateData) {
-        return String.format("Thanks %s for answering our survey. Kind regards, %s!",
-                templateData.getGuestName(),
-                templateData.getHotelName());
-    }
-
     public EmailTemplateDataProjection getTemplateData(Long surveyResponseId) {
         return emailTemplateService.getTemplateData(surveyResponseId);
     }

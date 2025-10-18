@@ -32,20 +32,18 @@ public interface SurveyResultRepository extends JpaRepository<SurveyResponse, Lo
     EmailTemplateDataProjection findEmailTemplateDataBySurveyResultId(Long surveyResultId);
 
     /**
-    * This query retrieves the survey scores grouped by hotel and score.
+    * This query retrieves the surveys scores.
     */
     @Query(value = """
     SELECT
         h.name AS hotelName,
         s.hotel_id AS hotelId,
         s.score AS score,
-        COUNT(*) AS scoreCant
+        s.weight AS weight
     FROM
         surveys s
     INNER JOIN
         hotels h ON s.hotel_id = h.id
-    GROUP BY
-        s.hotel_id, s.score
     """, nativeQuery = true)
     List<SurveyScoreGroupProjection> findGroupedScoreData();
 }

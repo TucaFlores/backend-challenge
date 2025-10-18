@@ -19,7 +19,7 @@ public interface SurveyResultRepository extends JpaRepository<SurveyResponse, Lo
         g.id AS guestId,
         g.name AS guestName,
         g.email AS guestEmail,
-        h.name AS hotelName,
+        h.name AS hotelName
     FROM
         guests g
     INNER JOIN

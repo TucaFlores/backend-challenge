@@ -18,3 +18,13 @@ CREATE TABLE surveys (
     CONSTRAINT fk_survey_hotel FOREIGN KEY (hotel_id) REFERENCES hotels(id),
     CONSTRAINT fk_survey_guest FOREIGN KEY (guest_id) REFERENCES guests(id)
 );
+
+CREATE TABLE activity_mails (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    survey_id BIGINT NOT NULL,
+    sender VARCHAR(255) NOT NULL,
+    recipient VARCHAR(255) NOT NULL,
+    subject VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    sent_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

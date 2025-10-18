@@ -14,14 +14,14 @@ import java.util.stream.Collectors;
 @Service
 public class KpiService {
 
-    private final SurveyResultRepository repository;
+    private final SurveyResultRepository surveyResultRepository;
 
     public KpiService(SurveyResultRepository repository){
-        this.repository = repository;
+        this.surveyResultRepository = repository;
     }
 
     public List<WeightedKpiResult<String, Double>> getWeightedAverageScore() {
-        List<SurveyScoreGroupProjection> groupedScores = repository.findGroupedScoreData();
+        List<SurveyScoreGroupProjection> groupedScores = surveyResultRepository.findGroupedScoreData();
         Map<Long, List<SurveyScoreGroupProjection>> groupedByHotel = groupByHotel(groupedScores);
         return groupedByHotel.values().stream()
                 .map(projectionList -> calculateWeightedAverage(
@@ -39,15 +39,15 @@ public class KpiService {
      * Calcula el promedio ponderado de las puntuaciones para un hotel dado, utilizando la fórmula:
      *
      * <pre>
-     *     weightedAverage = (Σ (score * count)) / Σ count
+     *     weightedAverage = (Σ (score * weight)) / Σ weight
      * </pre>
      *
      * Donde:
      * - `score` es la puntuación dada por los huéspedes.
-     * - `count` es la cantidad de veces que se dio esa puntuación.
+     * - `weight` es el peso de dicha puntuación.
      *
-     * Este método suma los productos de cada puntuación por su frecuencia (numerador) y los divide
-     * por la suma total de frecuencias (denominador).
+     * Este método suma los productos de cada puntuación por su peso (numerador) y los divide
+     * por la suma total de los pesos (denominador).
      *
      * @param hotelName nombre del hotel
      * @param projectionList lista de proyecciones con score y cantidad para ese hotel
@@ -59,7 +59,7 @@ public class KpiService {
                 .sum();
 
         double denominator = projectionList.stream()
-                .map(row -> Optional.ofNullable(row.getScoreCount()).orElse(SurveyScoreGroupProjection.DEFAULT_VAL))
+                .map(row -> Optional.ofNullable(row.getWeight()).orElse(SurveyScoreGroupProjection.DEFAULT_VAL))
                 .mapToDouble(Long::doubleValue)
                 .sum();
 
